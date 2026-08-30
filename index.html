@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cofounder & hiring roadmap dashboard</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+  <header id="filters">
+    <h1>Roadmap Opportunity Dashboard</h1>
+    <p id="last-updated" class="last-updated">Last updated: —</p>
+    <div class="filter-group">
+      <label for="persona-filter">Persona</label>
+      <select id="persona-filter" name="persona-filter">
+        <option value="all">All personas</option>
+        <option value="cofounder-seekers">Cofounder-seekers</option>
+        <option value="job-seekers">Job-seekers</option>
+        <option value="employers">Employers</option>
+      </select>
+
+      <label for="source-filter">Source</label>
+      <select id="source-filter" name="source-filter">
+        <option value="all">Reddit + X</option>
+        <option value="reddit">Reddit only</option>
+        <option value="x">X only</option>
+      </select>
+
+      <label for="timeframe-filter">Timeframe</label>
+      <select id="timeframe-filter" name="timeframe-filter">
+        <option value="4w">Last 4 weeks</option>
+        <option value="8w" selected>Last 8 weeks</option>
+        <option value="12w">Last 12 weeks</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="opportunities" aria-labelledby="opportunities-heading">
+      <h2 id="opportunities-heading">Top build opportunities</h2>
+      <p class="section-subtitle">Ranked by mention volume &times; negativity &times; trend</p>
+
+      <ol id="opportunity-list" class="opportunity-list">
+        <!-- Each <li> below is a template row. Duplicate this structure per real opportunity item. -->
+        <li class="opportunity-item" data-opportunity-id="">
+          <span class="opportunity-rank"></span>
+          <div class="opportunity-body">
+            <h3 class="opportunity-title"></h3>
+            <p class="opportunity-meta">
+              <span class="meta-persona"></span>
+              <span class="meta-mentions"></span>
+              <span class="meta-negative-pct"></span>
+              <span class="meta-trend"></span>
+            </p>
+            <blockquote class="opportunity-quote"></blockquote>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="competitor-gaps" aria-labelledby="competitor-gaps-heading">
+      <h2 id="competitor-gaps-heading">Competitor gaps</h2>
+      <p class="section-subtitle">What people wish LinkedIn, Indeed, and Glassdoor did</p>
+
+      <div id="competitor-gap-list" class="competitor-gap-grid">
+        <!-- One card per competitor. Duplicate this structure per real competitor entry. -->
+        <article class="competitor-card" data-competitor="">
+          <h3 class="competitor-name"></h3>
+          <p class="competitor-gap-text"></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="feature-requests" aria-labelledby="feature-requests-heading">
+      <h2 id="feature-requests-heading">Explicit feature requests</h2>
+      <p class="section-subtitle">Mentions phrased as "I wish there was..."</p>
+
+      <ul id="feature-request-list" class="feature-request-list">
+        <!-- Duplicate this structure per real feature request. -->
+        <li class="feature-request-item" data-request-id="">
+          <span class="request-text"></span>
+          <span class="request-count"></span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="sentiment-by-persona" aria-labelledby="sentiment-heading">
+      <h2 id="sentiment-heading">Overall sentiment by persona</h2>
+
+      <div id="sentiment-legend" class="chart-legend">
+        <span class="legend-item legend-positive">Positive</span>
+        <span class="legend-item legend-neutral">Neutral</span>
+        <span class="legend-item legend-negative">Negative</span>
+      </div>
+
+      <div class="chart-wrapper">
+        <canvas id="sentimentChart" role="img" aria-label="Stacked bar chart of sentiment by persona"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
