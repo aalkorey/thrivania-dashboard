@@ -1,0 +1,40 @@
+name: Pull and tag new data
+
+on:
+  schedule:
+    # Every Monday at 9am UTC. Adjust the cron expression to change frequency.
+    - cron: "0 9 * * 1"
+  workflow_dispatch: {} # lets you trigger it manually from the Actions tab too
+
+jobs:
+  pull-and-tag:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ingestion
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pull new posts from X
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: python x_pull.py
+
+      - name: Tag new posts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python sentiment_tagging.py
