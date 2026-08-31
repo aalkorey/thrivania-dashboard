@@ -92,12 +92,21 @@ def fetch_tweets(query: str, max_results: int) -> List[Dict]:
         params={
             "query": query,
             "max_results": max_results,
-            "tweet.fields": "created_at,author_id",
+            # note_tweet carries the full text for posts over 280 characters —
+            # the plain "text" field truncates those, cutting off mid-sentence.
+            "tweet.fields": "created_at,author_id,note_tweet",
         },
         timeout=30,
     )
     response.raise_for_status()
     return response.json().get("data", [])
+
+
+def get_full_text(tweet: Dict) -> str:
+    note_tweet = tweet.get("note_tweet")
+    if note_tweet and note_tweet.get("text"):
+        return note_tweet["text"]
+    return tweet["text"]
 
 
 def to_post_row(tweet: Dict, persona: Optional[str], competitor: Optional[str]) -> Dict:
@@ -106,7 +115,7 @@ def to_post_row(tweet: Dict, persona: Optional[str], competitor: Optional[str]) 
         "external_id": tweet["id"],
         "url": f"https://x.com/i/web/status/{tweet['id']}",
         "author": tweet.get("author_id"),
-        "content": tweet["text"],
+        "content": get_full_text(tweet),
         "posted_at": tweet["created_at"],
         "persona": persona,
         "competitor_mentioned": competitor,

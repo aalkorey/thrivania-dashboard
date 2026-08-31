@@ -54,10 +54,14 @@ async function fetchOpportunities(persona, source) {
 
   const { data: quotePosts } = await quoteQuery;
 
-  const quoteByTheme = {};
+  const quotesByTheme = {};
   (quotePosts || []).forEach((post) => {
-    if (!quoteByTheme[post.theme_id]) {
-      quoteByTheme[post.theme_id] = post.content;
+    if (!quotesByTheme[post.theme_id]) {
+      quotesByTheme[post.theme_id] = [];
+    }
+    // Cap at 20 per theme so a very high-mention theme doesn't balloon the DOM.
+    if (quotesByTheme[post.theme_id].length < 20) {
+      quotesByTheme[post.theme_id].push(post.content);
     }
   });
 
@@ -68,7 +72,7 @@ async function fetchOpportunities(persona, source) {
     mentions: theme.mentions,
     negativePct: theme.negative_pct,
     trend: computeTrend(theme.mentions_last_week, theme.mentions_prior_week),
-    quote: quoteByTheme[theme.theme_id] || ""
+    quotes: quotesByTheme[theme.theme_id] || []
   }));
 }
 
@@ -213,7 +217,35 @@ function renderOpportunities(opportunities) {
     node.querySelector(".meta-mentions").textContent = `${item.mentions} mentions`;
     node.querySelector(".meta-negative-pct").textContent = `${item.negativePct}% negative`;
     node.querySelector(".meta-trend").textContent = `trending ${item.trend}`;
-    node.querySelector(".opportunity-quote").textContent = item.quote;
+
+    const quotesContainer = node.querySelector(".opportunity-quotes");
+    const toggleButton = node.querySelector(".quotes-toggle");
+
+    item.quotes.forEach((quoteText, quoteIndex) => {
+      const blockquote = document.createElement("blockquote");
+      blockquote.className = "opportunity-quote";
+      blockquote.textContent = quoteText;
+      if (quoteIndex > 0) {
+        blockquote.style.display = "none";
+      }
+      quotesContainer.appendChild(blockquote);
+    });
+
+    if (item.quotes.length <= 1) {
+      toggleButton.style.display = "none";
+    } else {
+      toggleButton.textContent = `Show all ${item.quotes.length} mentions`;
+      toggleButton.addEventListener("click", () => {
+        const expanded = toggleButton.dataset.expanded === "true";
+        const extraQuotes = quotesContainer.querySelectorAll(".opportunity-quote:not(:first-child)");
+        extraQuotes.forEach((q) => {
+          q.style.display = expanded ? "none" : "block";
+        });
+        toggleButton.dataset.expanded = expanded ? "false" : "true";
+        toggleButton.textContent = expanded ? `Show all ${item.quotes.length} mentions` : "Show less";
+      });
+    }
+
     list.appendChild(node);
   });
 }

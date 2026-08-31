@@ -45,19 +45,20 @@
 
       <ol id="opportunity-list" class="opportunity-list">
         <!-- Each <li> below is a template row. Duplicate this structure per real opportunity item. -->
-        <li class="opportunity-item" data-opportunity-id="">
-          <span class="opportunity-rank"></span>
-          <div class="opportunity-body">
-            <h3 class="opportunity-title"></h3>
-            <p class="opportunity-meta">
-              <span class="meta-persona"></span>
-              <span class="meta-mentions"></span>
-              <span class="meta-negative-pct"></span>
-              <span class="meta-trend"></span>
-            </p>
-            <blockquote class="opportunity-quote"></blockquote>
-          </div>
-        </li>
+          <li class="opportunity-item" data-opportunity-id="">
+            <span class="opportunity-rank" data-rank=""></span>
+            <div class="opportunity-body">
+              <h3 class="opportunity-title"></h3>
+              <p class="opportunity-meta">
+                <span class="meta-persona"></span>
+                <span class="meta-mentions"></span>
+                <span class="meta-negative-pct"></span>
+                <span class="meta-trend"></span>
+              </p>
+              <div class="opportunity-quotes"></div>
+              <button type="button" class="quotes-toggle" data-expanded="false">Show all mentions</button>
+            </div>
+          </li>
       </ol>
     </section>
 
