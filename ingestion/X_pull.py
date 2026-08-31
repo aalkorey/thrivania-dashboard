@@ -30,7 +30,7 @@ SUPABASE_SECRET_KEY = os.environ["SUPABASE_SECRET_KEY"]
 
 # Keep this small while testing — each result costs money. Raise it once
 # you've confirmed the pipeline works end to end.
-MAX_RESULTS_PER_QUERY = 10
+MAX_RESULTS_PER_QUERY = 100
 
 # Each entry: the X search query, which persona it targets, and (if any)
 # which competitor it's about. lang:en and -is:retweet keep results clean.
