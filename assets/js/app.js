@@ -299,7 +299,8 @@ function renderSentimentChart(sentimentByPersona) {
 function formatPersona(persona) {
   const labels = {
     "cofounder-seekers": "Cofounder-seekers",
-    "job-seekers": "Job-seekers",
+    "early-talent-job-seekers": "Early-talent job-seekers",
+    "non-early-talent-job-seekers": "Non-early-talent job-seekers",
     "employers": "Employers"
   };
   return labels[persona] || persona;

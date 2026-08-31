@@ -45,9 +45,14 @@ QUERIES = [
         "persona": "cofounder-seekers",
         "competitor": None,
     },
+        {
+        "query": '("new grad" OR "entry level" OR internship) ("job search" OR "looking for a job") (frustrating OR ghosted OR ATS) lang:en -is:retweet -is:nullcast -toolkit -"#Ad" -"get yours"',
+        "persona": "early-talent-job-seekers",
+        "competitor": None,
+    },
     {
-        "query": '("job search" OR "looking for a job") (frustrating OR ghosted OR ATS) lang:en -is:retweet -is:nullcast -toolkit -"#Ad" -"get yours"',
-        "persona": "job-seekers",
+        "query": '("job search" OR "looking for a job") (frustrating OR ghosted OR ATS) (experienced OR "years of experience" OR senior) lang:en -is:retweet -is:nullcast -toolkit -"#Ad" -"get yours"',
+        "persona": "non-early-talent-job-seekers",
         "competitor": None,
     },
     {
@@ -69,6 +74,11 @@ QUERIES = [
         "query": 'glassdoor ("fake review" OR "reviews are" OR biased OR manipulated OR "can\'t trust" OR untrustworthy) lang:en -is:retweet -is:nullcast -"space x" -tesla',
         "persona": None,
         "competitor": "glassdoor",
+    },
+    {
+        "query": "jobgether (review OR experience OR opinion) lang:en -is:retweet -is:nullcast",
+        "persona": None,
+        "competitor": "jobgether",
     },
 ]
 

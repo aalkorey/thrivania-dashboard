@@ -36,7 +36,7 @@ CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
 supabase = create_client(SUPABASE_URL, SUPABASE_SECRET_KEY)
 claude = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-CLASSIFY_PROMPT = """You are helping tag social media posts for a product research dashboard. The product matches startup cofounders, and separately matches job-seekers with employers.
+CLASSIFY_PROMPT = """You are helping tag social media posts for a product research dashboard. The product matches startup cofounders, and separately matches job-seekers (both early-talent and experienced) with employers.
 
 Post to classify:
 ---
